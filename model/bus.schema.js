@@ -1,24 +1,27 @@
 import mongoose from "mongoose";
 
 const BusSchema = new mongoose.Schema({
-    licensePlate: { type: String, required: true, unique: true }, // Biển số xe
-    operator: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
-    route: {
-        start:  String, 
-        end:  String, 
-    },
-    departureTime: Date, // Thời gian khởi hành
-    arrivalTime: Date,   // Thời gian dự kiến đến nơi
-    seats: [
-        {
-            seatNumber: String,
-            isAvailable: { type: Boolean, default: true },
-            price: Number
+    routeId: { type: mongoose.Schema.Types.ObjectId, ref: 'route', required: true }, // Liên kết đến tuyến xe
+    img: String,
+    availableSeats: { type: Number, required: true }, // Số ghế còn lại
+    totalSeats: { type: Number, required: true }, // Tổng số ghế trên xe
+    status: { type: String, enum: ['active', 'inactive'], default: 'active' }, // Trạng thái xe
+    seats: [{ // Mảng chứa thông tin về từng ghế
+        seatNumber: { type: String, required: true }, // Số ghế (ví dụ: "1A", "2B", ...)
+        isBooked: { type: Boolean, default: false }, // Trạng thái ghế (đặt hay chưa)
+        bookedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users' }, // Người đã đặt ghế, nếu có
+        location: { // Phân loại ghế theo khu vực
+            type: String,
+            enum: ['front', 'middle', 'back'], // Các khu vực ghế (trước, giữa, sau)
+            required: true,
+        },
+        price: { // Giá vé cho từng khu vực ghế
+            type: Number,
+            required: true,
         }
-    ],
-    status: { type: String, enum: ['active', 'inactive', 'maintenance'], default: 'active' }, 
+    }],
 }, { timestamps: true });
 
-const busModel = mongoose.model('bus', BusSchema);
+const Bus = mongoose.model('bus', BusSchema);
 
-export default busModel;
+export default Bus;

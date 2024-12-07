@@ -10,7 +10,7 @@ cloudinary.config(getCloudinaryConfig);
 
 const userController = {
     getUsers: async (req, res) => {
-        const listUser = await userModel.find().populate('ticket');
+        const listUser = await userModel.find();
         res.status(200).send(listUser)
     },
 
@@ -43,11 +43,11 @@ const userController = {
                 userId: user._id,
                 username: user.username,
                 email: user.email,
-            }, process.env.SECRETKEY, { expiresIn: 60 * 10 })
+                role: user.role
+            }, process.env.SECRETKEY, { expiresIn: 60 * 100 })
             res.status(200).send({
                 message: "Login successful",
                 accessToken: token,
-                userId: user._id,
             });
         } catch (error) {
             res.status(400).send({

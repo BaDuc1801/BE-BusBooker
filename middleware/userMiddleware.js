@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 const userMiddleware = {
     checkValidUser: async (req, res, next) => {
-        const { email, password } = req.body;
+        const { email } = req.body;
         const existEmail = await userModel.findOne({ email })
         if (existEmail){
             return res.status(400).send("Email đã tồn tại!") 
@@ -17,7 +17,6 @@ const userMiddleware = {
             const auth = req.headers['authorization'];
             if(auth){
                 const token = auth.split(' ')[1];
-
                 jwt.verify(token, process.env.SECRETKEY, (err, decoded) => {
                     if(err) {
                         return res.status(401).json({message: 'Access token is invalid'})
