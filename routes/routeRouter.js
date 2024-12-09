@@ -6,6 +6,8 @@ const routeRouter = express.Router();
 routeRouter.post('/', RouteController.createRoute);
 routeRouter.get('/', RouteController.getRoutes);
 routeRouter.put('/:id', RouteController.updateRoute);
-routeRouter.get('/:id', RouteController.getRoutesById);
+routeRouter.post('/push-schedule/', RouteController.updateRouteBySchedule);
+routeRouter.get('/get-route/:id', RouteController.getRoutesById);
+routeRouter.get('/find-schedule',RouteController.searchSchedule)
 
 export default routeRouter;

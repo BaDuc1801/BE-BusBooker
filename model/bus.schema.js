@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const BusSchema = new mongoose.Schema({
-    routeId: { type: mongoose.Schema.Types.ObjectId, ref: 'route', required: true }, // Liên kết đến tuyến xe
-    img: String,
+    scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: 'schedules'}, // Liên kết đến tuyến xe
+    img: [String],
     availableSeats: { type: Number, required: true }, // Số ghế còn lại
     totalSeats: { type: Number, required: true }, // Tổng số ghế trên xe
     status: { type: String, enum: ['active', 'inactive'], default: 'active' }, // Trạng thái xe
@@ -20,8 +20,9 @@ const BusSchema = new mongoose.Schema({
             required: true,
         }
     }],
+    owner: String,
 }, { timestamps: true });
 
-const Bus = mongoose.model('bus', BusSchema);
+const BusModel = mongoose.model('bus', BusSchema);
 
-export default Bus;
+export default BusModel;
