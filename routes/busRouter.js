@@ -10,8 +10,7 @@ const upload = multer({
 })
 
 busRouter.put('/img/:id', upload.array('img'), BusController.uploadImgItem);
-busRouter.put('/:id', BusController.updateBus);
-busRouter.post('/post11', BusController.addBus11);
-busRouter.post('/post9', BusController.addBus9);
+busRouter.put('/update/:id', BusController.updateBus);
+busRouter.post('/add', BusController.createBus)
 
 export default busRouter

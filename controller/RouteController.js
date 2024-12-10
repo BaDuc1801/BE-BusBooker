@@ -35,18 +35,12 @@ const RouteController = {
 
     getRoutesById: async (req, res) => {
         let routeId = req.params.id;
-        let rs = await RouteModel.findById(routeId).populate("schedules").populate({
-            path: 'schedules',
-            populate: {
-              path: 'busId',  
-            },
-          });
+        let rs = await RouteModel.findById(routeId).populate("schedules");
         res.status(200).send(rs)
     },
 
     searchSchedule: async (req, res) => {
         const { startTime = null, origin, destination } = req.query; 
-
         try {
              if (!startTime) {
                 const routes = await RouteModel.find({ origin, destination }).populate({

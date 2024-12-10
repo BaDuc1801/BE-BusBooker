@@ -5,7 +5,7 @@ const scheduleRouter = express.Router();
 
 scheduleRouter.post('/', ScheduleController.createSchedule);
 scheduleRouter.get('/', ScheduleController.getSchedulesByDate);
-// scheduleRouter.put('/:id', ScheduleController.updateRoute);
-// scheduleRouter.get('/:id', ScheduleController.getRoutesById);
+scheduleRouter.put('/book-seat', ScheduleController.bookSeat);
+scheduleRouter.put('/update/:id', ScheduleController.updateSchedule);
 
 export default scheduleRouter;

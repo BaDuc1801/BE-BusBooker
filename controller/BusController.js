@@ -7,60 +7,10 @@ const getCloudinaryConfig = JSON.parse(process.env.CLOUD_DINARY_CONFIG);
 cloudinary.config(getCloudinaryConfig);
 
 const BusController = {
-    addBus11: async (req, res) => {
-        const { owner, price } = req.body;
-
-        const frontPrice = price.front;
-        const middlePrice = price.middle;
-        const backPrice = price.back;
-
-        const seats = [
-            ...Array.from({ length: 2 }, (_, i) => ({ seatNumber: `S${i + 1}`, location: 'front', price: frontPrice })),
-            ...Array.from({ length: 6 }, (_, i) => ({ seatNumber: `S${i + 3}`, location: 'middle', price: middlePrice })),
-            ...Array.from({ length: 3 }, (_, i) => ({ seatNumber: `S${i + 9}`, location: 'back', price: backPrice })),
-        ];
-
-        const newBus = await BusModel.create({
-            availableSeats: 11,
-            totalSeats: 11,
-            seats,
-            owner
-        });
-
-        try {
-            const savedBus = await newBus.save();
-            res.status(201).json(savedBus);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    },
-
-    addBus9: async (req, res) => {
-        const { owner, price } = req.body;
-
-        const frontPrice = price.front;
-        const middlePrice = price.middle;
-        const backPrice = price.back;
-
-        const seats = [
-            ...Array.from({ length: 2 }, (_, i) => ({ seatNumber: `S${i + 1}`, location: 'front', price: frontPrice })),
-            ...Array.from({ length: 4 }, (_, i) => ({ seatNumber: `S${i + 3}`, location: 'middle', price: middlePrice })),
-            ...Array.from({ length: 3 }, (_, i) => ({ seatNumber: `S${i + 7}`, location: 'back', price: backPrice })),
-        ];
-
-        const newBus = await BusModel.create({
-            availableSeats: 9,
-            totalSeats: 9,
-            seats,
-            owner
-        });
-
-        try {
-            const savedBus = await newBus.save();
-            res.status(201).json(savedBus);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+    createBus: async (req, res) => {
+        let {totalSeats, owner, licensePlate} = req.body;
+        let bus = await BusModel.create({totalSeats, owner, licensePlate});
+        res.status(200).send(bus)
     },
 
     uploadImgItem: async (req, res) => {
@@ -104,9 +54,11 @@ const BusController = {
     updateBus: async (req, res) => {
         const busId = req.params.id;
         const updateData = req.body;
-        const updatedBus = await BusModel.findByIdAndUpdate(busId, updateData, { new: true });
+        const updatedBus = await BusModel.findByIdAndUpdate({_id : busId}, updateData, { new: true });
         res.status(200).send(updatedBus);
     },
+
+    // bus nối với schedule
 }
 
 export default BusController;
