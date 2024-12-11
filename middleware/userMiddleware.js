@@ -29,6 +29,19 @@ const userMiddleware = {
         } catch (error) {
             res.status(401).json({message: 'Access token is missing'})
         }
+    },
+    
+    checkRole: async (req, res, next) => {
+        const userId = req.user.userId;
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).send({ message: 'Người dùng không tồn tại' });
+        }
+        if (user.role === 'Customer') {
+            return res.status(403).send({ message: 'You do not have permission to create vouchers' });
+        }
+
+        next();
     }
 }
 

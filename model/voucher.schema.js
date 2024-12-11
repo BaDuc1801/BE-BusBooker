@@ -5,10 +5,16 @@ const voucherSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    discount: Number,
+    discount: {
+        type: Number,
+    },
+    discountType: {
+        type: String,
+        enum: ['percent', 'fixed'],
+    },
     expiryDate: Date,
     description: String,
-    createdBy : {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
     }
