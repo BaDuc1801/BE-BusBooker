@@ -5,5 +5,6 @@ import userMiddleware from '../middleware/userMiddleware.js';
 const voucherRouter = express.Router();
 
 voucherRouter.post('/create', userMiddleware.verifyToken, userMiddleware.checkRole, voucherController.createVoucher);
+voucherRouter.get('/', voucherController.getVouchers);
 
 export default voucherRouter;

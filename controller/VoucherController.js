@@ -3,7 +3,7 @@ import voucherModel from '../model/voucher.schema.js';
 const voucherController = {
     createVoucher: async (req, res) => {
         try {
-            const { code, discount, expiryDate, description, discountType } = req.body;
+            const { code, discount, expiryDate, description, discountType, name,  count} = req.body;
             
             const existingVoucher = await voucherModel.findOne({ code });
             if (existingVoucher) {
@@ -16,6 +16,8 @@ const voucherController = {
                 expiryDate,
                 description,
                 discountType,
+                name,
+                count,
                 createdBy: req.user.id 
             });
 
@@ -25,6 +27,11 @@ const voucherController = {
         } catch (error) {
             return res.status(500).json({ message: 'Internal server error', error: error.message });
         }
+    },
+
+    getVouchers: async (req, res) => {
+        let all = await voucherModel.find();
+        res.status(200).send(all)
     }
 };
 

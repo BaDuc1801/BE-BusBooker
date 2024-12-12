@@ -5,6 +5,7 @@ const voucherSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    name: String,
     discount: {
         type: Number,
     },
@@ -14,6 +15,7 @@ const voucherSchema = new mongoose.Schema({
     },
     expiryDate: Date,
     description: String,
+    count: Number,
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
