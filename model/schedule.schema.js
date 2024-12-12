@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ScheduleSchema = new mongoose.Schema({
     busId: { type: mongoose.Schema.Types.ObjectId, ref: 'bus', required: true }, // Xe liên kết với lịch trình
-    routeId: { type: mongoose.Schema.Types.ObjectId, ref: 'route', required: true }, // Liên kết với tuyến xe (Route)
+    routeId: { type: mongoose.Schema.Types.ObjectId, ref: 'routes', required: true }, // Liên kết với tuyến xe (Route)
     startTime: { type: Date, required: true }, // Thời gian bắt đầu
     endTime: { type: Date, required: true }, // Thời gian kết thúc
     availableSeats: { type: Number, required: true }, // Số ghế còn lại

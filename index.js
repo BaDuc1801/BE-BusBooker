@@ -6,6 +6,7 @@ import routeRouter from './routes/routeRouter.js';
 import busRouter from './routes/busRouter.js';
 import scheduleRouter from './routes/scheduleRouter.js';
 import voucherRouter from './routes/voucherRouter.js';
+import ticketRouter from './routes/ticketRouter.js';
 
 await mongoose.connect('mongodb+srv://minhduc180104:minhduc180104@learnmongo.zli6q.mongodb.net/BusBooker?retryWrites=true&w=majority&appName=LearnMongo')
 
@@ -18,6 +19,7 @@ app.use('/routes', routeRouter)
 app.use('/bus', busRouter)
 app.use('/schedule', scheduleRouter)
 app.use('/vouchers', voucherRouter)
+app.use('/tickets', ticketRouter)
 
 app.listen(8080, () => {
     console.log("Server is running")

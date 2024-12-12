@@ -12,7 +12,7 @@ const ScheduleController = {
                 return res.status(404).send({ message: "Bus not found" });
             }
 
-            const totalSeats = bus.totalSeats; 
+            const totalSeats = bus.totalSeats;
 
             let seats = [];
             if (totalSeats === 11) {
@@ -65,32 +65,31 @@ const ScheduleController = {
             res.status(500).send({ message: error.message });
         }
     },
-// lúc đặt chỗ cần thêm thông tin người đặt
     bookSeat: async (req, res) => {
-        const { scheduleId, seatNumber } = req.body; // Lấy scheduleId và seatNumber từ req.body
+        const { scheduleId, seatNumber } = req.body;
         try {
-            // Tìm lịch trình dựa trên scheduleId
             const schedule = await ScheduleModel.findById(scheduleId);
             if (!schedule) {
                 return res.status(404).json({ message: "Schedule not found" });
             }
 
-            // Tìm ghế trong lịch trình
-            const seat = schedule.seats.find(seat => seat.seatNumber === seatNumber);
-            if (!seat) {
-                return res.status(404).json({ message: "Seat not found" });
+            const bookedSeats = [];
+            for (const seatNum of seatNumber) {
+                const seat = schedule.seats.find(seat => seat.seatNumber === seatNum);
+                if (!seat) {
+                    return res.status(404).json({ message: `Seat ${seatNum} not found` });
+                }
+
+                if (seat.isBooked) {
+                    return res.status(400).json({ message: `Seat ${seatNum} is already booked` });
+                }
+
+                seat.isBooked = true;
+                schedule.availableSeats -= 1;
+                bookedSeats.push(seatNum);
             }
 
-            // Kiểm tra xem ghế đã được đặt chưa
-            if (seat.isBooked) {
-                return res.status(400).json({ message: "Seat is already booked" });
-            }
 
-            // Cập nhật trạng thái ghế
-            seat.isBooked = true; // Đánh dấu ghế là đã đặt
-            schedule.availableSeats -= 1; // Giảm số ghế còn lại
-
-            // Lưu lại lịch trình đã cập nhật
             await schedule.save();
 
             return res.status(200).json({
@@ -104,10 +103,10 @@ const ScheduleController = {
         }
     },
 
-    updateSchedule : async (req, res) => {
+    updateSchedule: async (req, res) => {
         let id = req.params.id;
         let data = req.body;
-        let up = await ScheduleModel.findByIdAndUpdate({_id : id}, data, { new: true });
+        let up = await ScheduleModel.findByIdAndUpdate({ _id: id }, data, { new: true });
         res.status(200).send(up)
     }
 }
