@@ -9,14 +9,6 @@ const ScheduleSchema = new mongoose.Schema({
     seats: [{
         seatNumber: { type: String, required: true }, // Số ghế
         isBooked: { type: Boolean, default: false }, // Trạng thái ghế
-        bookedBy: {
-            type: mongoose.Schema.Types.Mixed, // Cho phép cả ObjectId và String
-            refPath: 'bookedByType' // Sử dụng refPath để liên kết động
-        },
-        bookedByType: {
-            type: String,
-            enum: ['Customer', 'Guest'], // "users" cho khách đăng nhập, "guest" cho khách không đăng nhập
-        },
         location: { // Phân loại ghế theo khu vực
             type: String,
             enum: ['front', 'middle', 'back'], // Các khu vực ghế (trước, giữa, sau)

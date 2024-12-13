@@ -140,6 +140,17 @@ const userController = {
         res.status(200).send(rs)
     },
 
+    updateUserById: async (req, res) => {
+        let user = req.body;
+        let userId = req.params.id;
+        let rs = await userModel.findByIdAndUpdate(
+            {_id: userId},
+            user,
+            {new: true}
+        )
+        res.status(200).send(rs)
+    },
+
     changePassword: async (req, res) => {
         try {
             let userId = req.user.userId;

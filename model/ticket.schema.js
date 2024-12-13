@@ -11,9 +11,7 @@ const TicketSchema = new mongoose.Schema({
         enum: ['waiting', 'booked', 'cancelled', 'completed'],
         default: 'waiting',
     },
-    isCancelled: { type: Boolean, default: false },
     paymentMethod: String,
-
     departureTrip: {
         scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: 'schedules', required: true },
         seatNumbers: [{ type: String, required: true }]
@@ -25,6 +23,8 @@ const TicketSchema = new mongoose.Schema({
     },
     price: { type: Number, required: true },
     phoneNumber: String,
+    email: String,
+    username: String,
     voucher: { type: mongoose.Schema.Types.ObjectId, ref: 'vouchers' }
 }, { timestamps: true });
 

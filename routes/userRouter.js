@@ -17,6 +17,7 @@ userRouter.post('/login' ,userController.login);
 userRouter.post('/forgot' ,userController.forgotPass);
 userRouter.put('/update-user', userMiddleware.verifyToken, userController.updateUser)
 userRouter.put('/change-password', userMiddleware.verifyToken, userController.changePassword)
-userRouter.put('/reset-pass',userController.resetPass)
+userRouter.put('/reset-pass',userController.resetPass),
+userRouter.put('/userId/:id', userController.updateUserById)
 
 export default userRouter
