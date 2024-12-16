@@ -1,11 +1,19 @@
 import mongoose from "mongoose";
 
 const NotificationSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, // Người nhận thông báo
-    message: { type: String, required: true }, // Nội dung thông báo
-    status: { type: String, enum: ['read', 'unread'], default: 'unread' }, // Trạng thái thông báo
+    username: String,
+    phoneNumber: String,
+    email: String,
+    garage: {
+        type: String,
+        default: ""
+    },
+    read: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
-const Notification = mongoose.model('notifications', NotificationSchema);
+const NotiModel = mongoose.model('notifications', NotificationSchema);
 
-export default Notification;
+export default NotiModel;

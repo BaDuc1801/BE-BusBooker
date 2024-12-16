@@ -144,9 +144,9 @@ const userController = {
         let user = req.body;
         let userId = req.params.id;
         let rs = await userModel.findByIdAndUpdate(
-            {_id: userId},
+            { _id: userId },
             user,
-            {new: true}
+            { new: true }
         )
         res.status(200).send(rs)
     },
@@ -186,7 +186,34 @@ const userController = {
         const userId = req.user.userId;
         const user = await userModel.findById(userId);
         res.status(200).send(user)
-    }
+    },
+
+    delUser: async (req, res) => {
+        let user = req.body;
+        let userId = req.params.id;
+        let rs = await userModel.findByIdAndDelete(
+            { _id: userId },
+            user,
+            { new: true }
+        )
+        res.status(200).send(rs)
+    },
+
+    updateUserByEmail: async (req, res) => {
+        const { email } = req.body;
+        const userUpdates = req.body;
+        const updatedUser = await userModel.findOneAndUpdate(
+            { email: email },
+            userUpdates,
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).send({ message: "Người dùng không tìm thấy" });
+        }
+        res.status(200).send(updatedUser);
+
+    },
 }
 
 export default userController;

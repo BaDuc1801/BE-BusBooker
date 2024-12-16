@@ -18,7 +18,7 @@ const voucherController = {
                 discountType,
                 name,
                 count,
-                createdBy: req.user.id 
+                createdBy: req.user.userId 
             });
 
             await newVoucher.save();
@@ -30,8 +30,27 @@ const voucherController = {
     },
 
     getVouchers: async (req, res) => {
-        let all = await voucherModel.find();
+        let all = await voucherModel.find().populate('createdBy');
         res.status(200).send(all)
+    },
+
+    updateVoucher: async (req, res) => {
+        let voucher = req.body;
+        let voucherId = req.params.id;
+        let rs = await voucherModel.findByIdAndUpdate(
+            {_id: voucherId},
+            voucher,
+            {new: true}
+        )
+        res.status(200).send(rs)
+    },
+
+    delVoucher: async (req, res) => {
+        let voucherId = req.params.id;
+        let rs = await voucherModel.findByIdAndDelete(
+            {_id: voucherId}
+        )
+        res.status(200).send(rs) 
     }
 };
 

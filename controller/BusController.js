@@ -58,7 +58,18 @@ const BusController = {
         res.status(200).send(updatedBus);
     },
 
-    // bus nối với schedule
+    getBus: async (req, res) => {
+        const all = await BusModel.find();
+        res.status(200).send(all)
+    },
+
+    delbus: async (req, res) => {
+        let busId = req.params.id;
+        let rs = await BusModel.findByIdAndDelete(
+            {_id: busId}
+        )
+        res.status(200).send(rs) 
+    }
 }
 
 export default BusController;

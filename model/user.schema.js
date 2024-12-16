@@ -14,10 +14,7 @@ const userSchema = new mongoose.Schema({
         enum: ['Customer', 'Admin', 'Operator'],
         default: 'Customer'
     },
-    ticket: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'tickets'
-    }]
+    owner: String,
 }, {
     timestamps: true
 })

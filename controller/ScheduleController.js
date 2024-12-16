@@ -3,6 +3,11 @@ import RouteModel from "../model/route.schema.js";
 import ScheduleModel from "../model/schedule.schema.js";
 
 const ScheduleController = {
+    getSchedules: async (req, res) => {
+        const c = await ScheduleModel.find().populate('busId').populate('routeId');
+        res.status(200).send(c)
+    },
+    
     createSchedule: async (req, res) => {
         let { busId, routeId, startTime, endTime, price } = req.body;
 
@@ -107,6 +112,12 @@ const ScheduleController = {
         let id = req.params.id;
         let data = req.body;
         let up = await ScheduleModel.findByIdAndUpdate({ _id: id }, data, { new: true });
+        res.status(200).send(up)
+    },
+
+    delSchedule: async (req, res) => {
+        let id = req.params.id;
+        let up = await ScheduleModel.findByIdAndDelete({ _id: id });
         res.status(200).send(up)
     }
 }

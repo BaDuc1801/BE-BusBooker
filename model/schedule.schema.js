@@ -16,7 +16,6 @@ const ScheduleSchema = new mongoose.Schema({
         },
         price: { type: Number, required: true }, // Giá vé
     }],
-    status: { type: String, enum: ['available', 'full', 'completed'], default: 'available' }, // Trạng thái của lịch trình
 }, { timestamps: true });
 
 const ScheduleModel = mongoose.model('schedules', ScheduleSchema);

@@ -16,8 +16,9 @@ const RouteController = {
         let route = req.body;
         let routeId = req.params.id;
         let rs = await RouteModel.findByIdAndUpdate(
-            routeId,
+            {_id: routeId},
             route,
+            {new: true}
         )
         res.status(200).send(rs)
     },
@@ -81,6 +82,14 @@ const RouteController = {
             res.status(500).json({ message: error.message });
         }
     },
+
+    delRoute: async (req, res) => {
+        let userId = req.params.id;
+        let rs = await RouteModel.findByIdAndDelete(
+            {_id: userId}
+        )
+        res.status(200).send(rs) 
+    }
 }
 
 export default RouteController;
