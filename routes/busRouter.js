@@ -13,6 +13,7 @@ busRouter.put('/img/:id', upload.array('img'), BusController.uploadImgItem);
 busRouter.put('/update/:id', BusController.updateBus);
 busRouter.post('/add', BusController.createBus);
 busRouter.get('/', BusController.getBus);
+busRouter.get('/review/:id', BusController.getBusReviews);
 busRouter.delete('/:id', BusController.delbus);
 
 export default busRouter

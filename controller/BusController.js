@@ -1,6 +1,7 @@
 import BusModel from '../model/bus.schema.js';
 import { v2 as cloudinary } from 'cloudinary'
 import dotenv from 'dotenv';
+import ReviewModel from '../model/review.schema.js';
 dotenv.config();
 
 const getCloudinaryConfig = JSON.parse(process.env.CLOUD_DINARY_CONFIG);
@@ -8,8 +9,8 @@ cloudinary.config(getCloudinaryConfig);
 
 const BusController = {
     createBus: async (req, res) => {
-        let {totalSeats, owner, licensePlate} = req.body;
-        let bus = await BusModel.create({totalSeats, owner, licensePlate});
+        let { totalSeats, owner, licensePlate } = req.body;
+        let bus = await BusModel.create({ totalSeats, owner, licensePlate });
         res.status(200).send(bus)
     },
 
@@ -54,7 +55,7 @@ const BusController = {
     updateBus: async (req, res) => {
         const busId = req.params.id;
         const updateData = req.body;
-        const updatedBus = await BusModel.findByIdAndUpdate({_id : busId}, updateData, { new: true });
+        const updatedBus = await BusModel.findByIdAndUpdate({ _id: busId }, updateData, { new: true });
         res.status(200).send(updatedBus);
     },
 
@@ -66,10 +67,33 @@ const BusController = {
     delbus: async (req, res) => {
         let busId = req.params.id;
         let rs = await BusModel.findByIdAndDelete(
-            {_id: busId}
+            { _id: busId }
         )
-        res.status(200).send(rs) 
-    }
+        res.status(200).send(rs)
+    },
+    getBusReviews: async (req, res) => {
+        const busId = req.params.id;
+
+        try {
+            const bus = await BusModel.findById(busId)
+                .populate({
+                    path: 'reviews', 
+                    populate: {
+                        path: 'userId', 
+                    }
+                });
+
+            if (!bus) {
+                return res.status(404).json({
+                    message: 'Bus không tồn tại.'
+                });
+            }
+            res.status(200).json({ reviews: bus.reviews });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Lỗi khi lấy reviews của bus.' });
+        }
+    },
 }
 
 export default BusController;

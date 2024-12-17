@@ -46,10 +46,18 @@ const RouteController = {
              if (!startTime) {
                 const routes = await RouteModel.find({ origin, destination }).populate({
                     path: 'schedules',
-                    populate: {
-                        path: 'busId'
-                    }
-                });
+                    populate: [
+                        {
+                            path: 'busId',
+                            populate:[
+                                {
+                                    path: 'reviews', // Populate các reviews của busId
+                                    model: 'reviews' // Đảm bảo sử dụng mô hình đúng, ở đây là Review
+                                }
+                            ]
+                        }
+                    ]
+                })
                 return res.status(200).json(routes);
             }
 

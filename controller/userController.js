@@ -204,7 +204,10 @@ const userController = {
         const userUpdates = req.body;
         const updatedUser = await userModel.findOneAndUpdate(
             { email: email },
-            userUpdates,
+            {
+                ...userUpdates,
+                role: "Operator"
+            },
             { new: true }
         );
 
@@ -212,7 +215,6 @@ const userController = {
             return res.status(404).send({ message: "Người dùng không tìm thấy" });
         }
         res.status(200).send(updatedUser);
-
     },
 }
 

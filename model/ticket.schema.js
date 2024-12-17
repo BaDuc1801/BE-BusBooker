@@ -12,20 +12,17 @@ const TicketSchema = new mongoose.Schema({
         default: 'waiting',
     },
     paymentMethod: String,
-    departureTrip: {
-        scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: 'schedules', required: true },
-        seatNumbers: [{ type: String, required: true }]
-    },
-
-    returnTrip: {
-        scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: 'schedules' },
-        seatNumbers: [{ type: String }],
-    },
+    scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: 'schedules', required: true },
+    seatNumbers: [{ type: String, required: true }],
     price: { type: Number, required: true },
     phoneNumber: String,
     email: String,
     username: String,
-    voucher: { type: mongoose.Schema.Types.ObjectId, ref: 'vouchers' }
+    voucher: { type: mongoose.Schema.Types.ObjectId, ref: 'vouchers' },
+    hasReviewed: {
+        type: Boolean,
+        default: false,
+    }
 }, { timestamps: true });
 
 const TicketModel = mongoose.model('ticket', TicketSchema);
