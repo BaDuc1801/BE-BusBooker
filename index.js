@@ -9,8 +9,10 @@ import voucherRouter from './routes/voucherRouter.js';
 import ticketRouter from './routes/ticketRouter.js';
 import notiRouter from './routes/notiRouter.js';
 import emailRouter from './routes/emailRouter.js';
+import dotenv from "dotenv";
+dotenv.config();
 
-await mongoose.connect(process.env.MONGO_DB)
+await mongoose.connect(process.env.MONGOCONNECT)
 
 const app = express();
 app.use(express.json());
