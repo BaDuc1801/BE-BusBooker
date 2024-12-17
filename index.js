@@ -10,7 +10,7 @@ import ticketRouter from './routes/ticketRouter.js';
 import notiRouter from './routes/notiRouter.js';
 import emailRouter from './routes/emailRouter.js';
 
-await mongoose.connect('mongodb+srv://minhduc180104:minhduc180104@learnmongo.zli6q.mongodb.net/BusBooker?retryWrites=true&w=majority&appName=LearnMongo')
+await mongoose.connect(process.env.MONGO_DB)
 
 const app = express();
 app.use(express.json());
