@@ -25,6 +25,10 @@ app.use('/tickets', ticketRouter)
 app.use('/noti', notiRouter)
 app.use('/email', emailRouter)
 
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "hello" });
+});
+
 app.listen(8080, () => {
     console.log("Server is running")
 })
