@@ -1,7 +1,6 @@
 import BusModel from '../model/bus.schema.js';
 import { v2 as cloudinary } from 'cloudinary'
 import dotenv from 'dotenv';
-import ReviewModel from '../model/review.schema.js';
 dotenv.config();
 
 const getCloudinaryConfig = JSON.parse(process.env.CLOUD_DINARY_CONFIG);

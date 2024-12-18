@@ -131,8 +131,7 @@ const userController = {
     },
 
     updateUser: async (req, res) => {
-        const { email } = req.body;
-        const userUpdates = req.body;
+        const { email, userUpdates } = req.body;
         const updatedUser = await userModel.findOneAndUpdate(
             { email: email },
             {

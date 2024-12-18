@@ -51,8 +51,8 @@ const RouteController = {
                             path: 'busId',
                             populate:[
                                 {
-                                    path: 'reviews', // Populate các reviews của busId
-                                    model: 'reviews' // Đảm bảo sử dụng mô hình đúng, ở đây là Review
+                                    path: 'reviews', 
+                                    model: 'reviews'
                                 }
                             ]
                         }

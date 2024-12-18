@@ -93,10 +93,7 @@ const ScheduleController = {
                 schedule.availableSeats -= 1;
                 bookedSeats.push(seatNum);
             }
-
-
             await schedule.save();
-
             return res.status(200).json({
                 message: `Seat ${seatNumber} has been successfully booked`,
                 scheduleId,
