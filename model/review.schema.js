@@ -4,7 +4,7 @@ const reviewSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'users', // Liên kết đến schema User 
+      ref: 'users', 
       required: true,
     },
     content: {
@@ -14,8 +14,8 @@ const reviewSchema = new mongoose.Schema(
     rating: {
       type: Number,
       required: true,
-      min: 1, // Đảm bảo số sao ít nhất là 1
-      max: 5, // Đảm bảo số sao tối đa là 5
+      min: 1, 
+      max: 5, 
     },
     createdAt: {
       type: Date,
@@ -25,7 +25,6 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true } // Tạo trường createdAt và updatedAt tự động
 );
 
-// Tạo model từ schema
 const ReviewModel = mongoose.model('reviews', reviewSchema);
 
 export default ReviewModel
