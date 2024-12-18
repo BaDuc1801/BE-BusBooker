@@ -134,12 +134,9 @@ const userController = {
         const { email, userUpdates } = req.body;
         const updatedUser = await userModel.findOneAndUpdate(
             { email: email },
-            {
-                ...userUpdates,
-            },
+            userUpdates,
             { new: true }
         );
-
         if (!updatedUser) {
             return res.status(404).send({ message: "Người dùng không tìm thấy" });
         }
