@@ -2,8 +2,8 @@ import NotiModel from "../model/noti.schema.js";
 
 const NotiController = {
     postNoti : async (req, res) => {
-        let {username, phoneNumber, email} = req.body;
-        let rs = await NotiModel.create({username, phoneNumber, email});
+        let {username, phoneNumber, email, garage} = req.body;
+        let rs = await NotiModel.create({username, phoneNumber, email, garage});
         res.status(200).send(rs)
     },
 
