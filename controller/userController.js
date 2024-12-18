@@ -131,13 +131,20 @@ const userController = {
     },
 
     updateUser: async (req, res) => {
-        let user = req.body;
-        let userId = req.user.userId;
-        let rs = await userModel.findByIdAndUpdate(
-            userId,
-            user
-        )
-        res.status(200).send(rs)
+        const { email } = req.body;
+        const userUpdates = req.body;
+        const updatedUser = await userModel.findOneAndUpdate(
+            { email: email },
+            {
+                ...userUpdates,
+            },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).send({ message: "Người dùng không tìm thấy" });
+        }
+        res.status(200).send(updatedUser);
     },
 
     updateUserById: async (req, res) => {
