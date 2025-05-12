@@ -34,27 +34,62 @@ const userController = {
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
-            const user = await userModel.findOne({ email })
+            const user = await userModel.findOne({ email });
             const compare = bcrypt.compareSync(password, user.password);
             if (!compare) {
-                throw new Error('Email or password is invalid!');
+                throw new Error('Email hoặc password không đúng');
             }
-            const token = jwt.sign({
+            const accessToken = jwt.sign({
                 userId: user._id,
-                username: user.username,
-                email: user.email,
                 role: user.role
-            }, process.env.SECRETKEY, { expiresIn: 60 * 100 })
-            res.status(200).send({
-                message: "Login successful",
-                accessToken: token,
-            });
-        } catch (error) {
-            res.status(400).send({
-                message: error.message
-            })
-        }
+            }, process.env.SECRETKEY, { expiresIn: "1h" });
 
+            const refreshToken = jwt.sign({
+                userId: user._id,
+                role: user.role
+            }, process.env.SECRETKEY, { expiresIn: "24h" });
+
+            res.cookie('refresh_token', refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'None',
+            });
+
+            res.status(200).send({
+                message: "Đăng nhập thành công",
+                accessToken: accessToken
+            })
+        } catch (error) {
+            res.status(400).send(error.message)
+        }
+    },
+
+    refreshAccessToken: async (req, res) => {
+        const refreshToken = req.cookies.refresh_token;
+        if (!refreshToken) {
+            return res.status(401).json({ message: 'Không tìm thấy refresh token' });
+        }
+        try {
+            const decoded = jwt.verify(refreshToken, process.env.SECRETKEY);
+            const user = await userModel.findById(decoded.userId);
+            if (!user) {
+                return res.status(403).json({ message: 'Không tìm thấy người dùng' });
+            }
+
+            const newAccessToken = jwt.sign({
+                userId: user._id,
+                role: user.role
+            }, process.env.SECRETKEY, { expiresIn: "1h" });
+
+            res.status(200).send({ accessToken: newAccessToken });
+        } catch (error) {
+            res.status(403).send({ message: 'Refresh token không hợp lệ hoặc đã hết hạn' });
+        }
+    },
+
+    logout: async (req, res) => {
+        res.clearCookie('refresh_token');
+        res.status(200).json({ message: "Đăng xuất thành công" })
     },
 
     resetPass: async (req, res) => {

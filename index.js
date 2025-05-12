@@ -14,9 +14,15 @@ dotenv.config();
 
 await mongoose.connect(process.env.MONGOCONNECT)
 
+const corsOptions = {
+    origin: 'http://localhost:3000',  
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+    credentials: true, 
+};
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/users', userRouter)
 app.use('/routes', routeRouter)
