@@ -12,13 +12,13 @@ const upload = multer({
 userRouter.get('/', userController.getUsers);
 userRouter.get('/infor', userMiddleware.verifyToken, userController.getUserById)
 userRouter.put('/email', userController.updateUserByEmail);
-userRouter.post('/register', userMiddleware.checkValidUser ,userController.register);
-userRouter.put('/up-avatar', upload.single('avatar'), userController.uploadAvatar);
-userRouter.post('/login' ,userController.login);
-userRouter.post('/forgot' ,userController.forgotPass);
-userRouter.put('/update-user',userMiddleware.verifyToken, userController.updateUser)
+userRouter.post('/register', userMiddleware.checkValidUser, userController.register);
+userRouter.put('/up-avatar', userMiddleware.verifyToken, upload.single('avatar'), userController.uploadAvatar);
+userRouter.post('/login', userController.login);
+userRouter.post('/forgot', userController.forgotPass);
+userRouter.put('/update-user', userMiddleware.verifyToken, userController.updateUser)
 userRouter.put('/change-password', userMiddleware.verifyToken, userController.changePassword)
-userRouter.put('/reset-pass',userController.resetPass);
+userRouter.put('/reset-pass', userController.resetPass);
 userRouter.put('/userId/:id', userController.updateUserById);
 userRouter.delete('/:id', userController.delUser)
 userRouter.post('/logout', userController.logout);

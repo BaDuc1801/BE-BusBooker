@@ -131,12 +131,12 @@ const userController = {
 
     uploadAvatar: async (req, res) => {
         let avatar = req.file;
-        let { email } = req.query;
-        let user = await userModel.findOne({ email: email });
+        let userId = req.user.userId;
+        let user = await userModel.findById(userId);
         if (user) {
             if (avatar) {
                 const dataUrl = `data:${avatar.mimetype};base64,${avatar.buffer.toString('base64')}`;
-                const uploaded = await cloudinary.uploader.upload(dataUrl,
+                await cloudinary.uploader.upload(dataUrl,
                     { resource_type: 'auto' },
                     async (err, result) => {
                         if (result && result.url) {
