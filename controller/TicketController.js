@@ -44,7 +44,7 @@ const TicketController = {
 
     getTicketById: async (req, res) => {
         try {
-            let userId = req.params.id;
+            let userId = req.user.userId;
 
             if (!userId) {
                 return res.status(400).send({ message: "userId is required" });
@@ -57,7 +57,7 @@ const TicketController = {
 
 
             for (const ticket of tickets) {
-                const departureStartTime = ticket.scheduleId.startTime; // Lấy startTime từ scheduleId
+                const departureStartTime = ticket.scheduleId.startTime;
 
                 if (departureStartTime < currentTime && ticket.status !== 'completed') {
                     ticket.status = 'completed';
