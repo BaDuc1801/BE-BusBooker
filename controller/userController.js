@@ -42,7 +42,7 @@ const userController = {
             const accessToken = jwt.sign({
                 userId: user._id,
                 role: user.role
-            }, process.env.SECRETKEY, { expiresIn: "10s" });
+            }, process.env.SECRETKEY, { expiresIn: "60m" });
 
             const refreshToken = jwt.sign({
                 userId: user._id,
@@ -79,7 +79,7 @@ const userController = {
             const newAccessToken = jwt.sign({
                 userId: user._id,
                 role: user.role
-            }, process.env.SECRETKEY, { expiresIn: "1h" });
+            }, process.env.SECRETKEY, { expiresIn: "60m" });
 
             res.status(200).send({ accessToken: newAccessToken });
         } catch (error) {
