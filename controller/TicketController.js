@@ -89,7 +89,7 @@ const TicketController = {
     },
     cancelTicket: async (req, res) => {
         try {
-            const ticketId = req.body;
+            const { ticketId } = req.body;
 
             let ticket = await TicketModel.findById(ticketId).populate('scheduleId');
 
@@ -117,10 +117,7 @@ const TicketController = {
                     );
                 }
             }
-
-
             await ticket.save();
-
             res.status(200).send({ message: "Ticket cancelled successfully", ticket });
         } catch (error) {
             console.error(error);
