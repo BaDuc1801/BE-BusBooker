@@ -16,7 +16,7 @@ userRouter.post('/register', userMiddleware.checkValidUser ,userController.regis
 userRouter.put('/up-avatar', upload.single('avatar'), userController.uploadAvatar);
 userRouter.post('/login' ,userController.login);
 userRouter.post('/forgot' ,userController.forgotPass);
-userRouter.put('/update-user', userController.updateUser)
+userRouter.put('/update-user',userMiddleware.verifyToken, userController.updateUser)
 userRouter.put('/change-password', userMiddleware.verifyToken, userController.changePassword)
 userRouter.put('/reset-pass',userController.resetPass);
 userRouter.put('/userId/:id', userController.updateUserById);
