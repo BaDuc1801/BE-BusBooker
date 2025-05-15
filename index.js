@@ -8,6 +8,7 @@ import scheduleRouter from './routes/scheduleRouter.js';
 import voucherRouter from './routes/voucherRouter.js';
 import ticketRouter from './routes/ticketRouter.js';
 import notiRouter from './routes/notiRouter.js';
+import cookieParser from 'cookie-parser';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -22,6 +23,7 @@ const corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.use('/users', userRouter)
 app.use('/routes', routeRouter)
