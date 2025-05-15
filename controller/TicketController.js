@@ -57,7 +57,7 @@ const TicketController = {
 
 
             for (const ticket of tickets) {
-                const departureStartTime = ticket.scheduleId.startTime;
+                const departureStartTime = ticket.scheduleId.startTime; 
 
                 if (departureStartTime < currentTime && ticket.status !== 'completed') {
                     ticket.status = 'completed';
@@ -89,7 +89,7 @@ const TicketController = {
     },
     cancelTicket: async (req, res) => {
         try {
-            const { ticketId } = req.body;
+            const ticketId = req.body;
 
             let ticket = await TicketModel.findById(ticketId).populate('scheduleId');
 
