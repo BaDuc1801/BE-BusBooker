@@ -22,6 +22,7 @@ userRouter.put('/reset-pass', userController.resetPass);
 userRouter.put('/userId/:id', userController.updateUserById);
 userRouter.delete('/:id', userController.delUser)
 userRouter.post('/logout', userController.logout);
+userRouter.post('/forgot-password', userController.sendEmail);
 userRouter.post('/refresh-token', userController.refreshAccessToken);
 
 export default userRouter
