@@ -2,6 +2,7 @@ import userModel from "../model/user.schema.js"
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
 import { v2 as cloudinary } from 'cloudinary'
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -20,11 +21,11 @@ const sendEmailService = async (email) => {
     });
 
     let info = await transporter.sendMail({
-        from: '<minhduc180104@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello!", // plain text body
-        html: "<b>Mật khẩu mới: 123456@</b>", // html body
+        from: '<minhduc180104@gmail.com>',
+        to: email,
+        subject: "Hello ✔",
+        text: "Hello!",
+        html: "<b>Mật khẩu mới: 123456@</b>",
     });
     return info
 }
@@ -278,12 +279,21 @@ const userController = {
     },
 
     sendEmail: async (req, res) => {
-        const { email } = req.body;
-        const newPassword = "123456@";
-        const hashedPassword = bcrypt.hashSync(newPassword, 10);
-        await userModel.updateOne({ email: email }, { password: hashedPassword });
-        const rs = await sendEmailService(email);
-        res.status(200).send(rs)
+        try {
+            const { email } = req.body;
+            const user = await userModel.findOne({ email });
+            if (!user) return res.status(404).json({ message: 'Email không tồn tại trong hệ thống' });
+
+            const newPassword = "123456@";
+            const hashedPassword = bcrypt.hashSync(newPassword, 10);
+            await userModel.updateOne({ email }, { password: hashedPassword });
+
+            const rs = await sendEmailService(email);
+            res.status(200).send(rs);
+        } catch (error) {
+            console.error("SEND EMAIL ERROR:", error);
+            res.status(500).json({ message: "Lỗi server", error });
+        }
     }
 }
 
