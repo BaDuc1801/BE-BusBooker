@@ -15,7 +15,7 @@ dotenv.config();
 await mongoose.connect(process.env.MONGOCONNECT)
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://bus-booker-beige.vercel.app'],
+    origin: ['http://localhost:3000', 'https://bus-booker-beige.vercel.app', 'https://ridenest-booking.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };
